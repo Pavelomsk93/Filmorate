@@ -2,29 +2,24 @@ package ru.yandex.practicum.filmorate.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.jetbrains.annotations.NotNull;
 
-
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
 public class Film {
-
+    //Анотации @isBlank и @Email отказываются работать
     private int id;
 
-    @NotNull
-    @NotBlank
+    @NotNull(message = "Не может быть null")
     private String name;
 
-    @NotNull
-    @NotBlank
+    @NotNull(message = "Не может быть null")
     private String description;
 
-    @NotNull
+    @NotNull(message = "Не может быть null")
     private LocalDate releaseDate;
 
-   @NotNull
-    private long duration;
+   private long duration;
 }

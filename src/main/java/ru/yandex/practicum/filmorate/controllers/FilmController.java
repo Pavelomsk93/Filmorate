@@ -38,9 +38,12 @@ public class FilmController {
         }else if(film.getDescription().length()>200) {
             log.error("Длина описания фильма не может быть больше 200 символов");
             throw new ValidationException("Длина описания фильма не может быть больше 200 символов");
-        }else if(film.getDuration()<0){
+        }else if(film.getDuration()<0) {
             log.error("Продолжительность фильма должна быть больше 0");
             throw new ValidationException("Продолжительность фильма должна быть больше 0");
+        }else if(film.getName().isBlank()){
+            log.error("Название не может быть пустым");
+            throw new ValidationException("Название не может быть пустым");
         }else {
             film.setId(++id);
             films.put(film.getId(), film);

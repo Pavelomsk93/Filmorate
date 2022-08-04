@@ -14,11 +14,11 @@ public class FilmControllerTest {
 
 
     @Test
-    void shouldValidateCreateFilmWithNullName(){
+    void shouldValidateCreateFilmWithBlankName(){
         Validate validate = new Validate();
          assertThrows(
-                IllegalArgumentException.class,
-                validate::createFilmWithNullName
+                ValidationException.class,
+                validate::createFilmWithBlankName
         );
     }
 
@@ -33,29 +33,11 @@ public class FilmControllerTest {
     }
 
     @Test
-    void shouldValidateCreateFilmWithNullDescription(){
-        Validate validate = new Validate();
-        assertThrows(
-                IllegalArgumentException.class,
-                validate::createFilmWithNullDescription
-        );
-    }
-
-    @Test
     void shouldValidateCreateFilmWithLongDescription(){
         Validate validate = new Validate();
         assertThrows(
                 ValidationException.class,
                 validate::createFilmWithLongDescription
-        );
-    }
-
-    @Test
-    void shouldValidateCreateFilmWithNullReleaseDate(){
-        Validate validate = new Validate();
-        assertThrows(
-                IllegalArgumentException.class,
-                validate::createFilmWithNullReleaseDate
         );
     }
 
@@ -67,7 +49,4 @@ public class FilmControllerTest {
                 validate::createFilmWithNegativeDuration
         );
     }
-
-
-
 }

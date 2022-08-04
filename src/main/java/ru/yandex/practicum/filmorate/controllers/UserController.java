@@ -27,27 +27,33 @@ public class UserController {
 
     @PostMapping
     public User createUser(@Valid @RequestBody User user){
-        if (users.containsKey(user.getId())) {
-            log.error("Такой пользователь уже существует.");
-            throw new ValidationException("Такой пользователь уже существует.");
-        }else if(user.getLogin().contains(" ")) {
-            log.error("Логин не может содержать пробелы");
-            throw new ValidationException("Логин не может содержать пробелы");
-        }else if(user.getBirthday().isAfter(LocalDate.now())) {
-            log.error("Дата рождения не может быть в будущем");
-            throw new ValidationException("Дата рождения не может быть в будущем");
-        }else if(!user.getEmail().contains("@")){
-            log.error("Email должен содержать @");
-            throw new ValidationException("Email должен содержать @");
-        } else {
-            if (user.getName().isBlank()) {
-                log.debug("Имя не указано. В качестве имени используется логин.");
-                user.setName(user.getLogin());
-            }
-            user.setId(++id);
-            users.put(user.getId(), user);
-            log.info("Создали пользователя: {}.", user);
-            return user;
+            if (users.containsKey(user.getId())) {
+                log.error("Такой пользователь уже существует.");
+                throw new ValidationException("Такой пользователь уже существует.");
+            }else if(user.getLogin().contains(" ")) {
+                log.error("Логин не может содержать пробелы");
+                throw new ValidationException("Логин не может содержать пробелы");
+            }else if(user.getBirthday().isAfter(LocalDate.now())) {
+                log.error("Дата рождения не может быть в будущем");
+                throw new ValidationException("Дата рождения не может быть в будущем");
+            }else if(!user.getEmail().contains("@")) {
+                log.error("Email должен содержать @");
+                throw new ValidationException("Email должен содержать @");
+            }else if(user.getEmail().isBlank()) {
+                log.error("Email не может быть пустым");
+                throw new ValidationException("Email не может быть пустым");
+            }else if(user.getLogin().isBlank()) {
+                log.error("Логин не может быть пустым");
+                throw new ValidationException("Логин не может быть пустым");
+            } else {
+                if (user.getName().isBlank()) {
+                    log.debug("Имя не указано. В качестве имени используется логин.");
+                    user.setName(user.getLogin());
+                }
+                user.setId(++id);
+                users.put(user.getId(), user);
+                log.info("Создали пользователя: {}.", user);
+                return user;
         }
     }
 

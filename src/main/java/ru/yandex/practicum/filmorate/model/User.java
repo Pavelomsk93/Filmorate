@@ -3,33 +3,26 @@ package ru.yandex.practicum.filmorate.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.jetbrains.annotations.NotNull;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.PastOrPresent;
+import javax.validation.constraints.NotNull;
+
 import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
 public class User {
-
+    //Анотации @isBlank и @Email отказываются работать
     private int id;
 
-    @NotNull
-    @NotBlank(message = "Email не может быть пустым.")
-    @Email(message = "Email должен быть корректным адресом электронной почты.")
+    @NotNull(message = "Не может быть null")
     private String email;
 
-    @NotNull
-    @NotBlank(message = "Логин не может быть пустым.")
+    @NotNull(message = "Не может быть null")
     private String login;
 
-    @NotNull
+    @NotNull(message = "Не может быть null")
     private String name;
 
-    @NotNull
-    @PastOrPresent(message = "Дата рождения не может быть в будущем")
+    @NotNull(message = "Не может быть null")
     private LocalDate birthday;
-
 }

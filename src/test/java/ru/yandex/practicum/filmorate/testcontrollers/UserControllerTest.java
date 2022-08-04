@@ -14,14 +14,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class UserControllerTest {
 
     @Test
-    void shouldValidateCreateUserWithNullEmail(){
+    void shouldValidateCreateUserWithBlankEmail(){
         Validate validate = new Validate();
         assertThrows(
-                IllegalArgumentException.class,
-                validate::createUserWithNullEmail
+                ValidationException.class,
+                validate::createUserWithBlankEmail
         );
     }
-
     @Test
     void shouldValidateCreateUserWithWrongEmail(){
         Validate validate = new Validate();
@@ -30,25 +29,14 @@ public class UserControllerTest {
                 validate::createUserWithWrongEmail
         );
     }
-
     @Test
-    void shouldValidateCreateUserWithNullLogin(){
+    void shouldValidateCreateUserWithBlankLogin(){
         Validate validate = new Validate();
         assertThrows(
-                IllegalArgumentException.class,
-                validate::createUserWithNullLogin
+                ValidationException.class,
+                validate::createUserWithBlankLogin
         );
     }
-
-    @Test
-    void shouldValidateCreateUserWithNullBirthday(){
-        Validate validate = new Validate();
-        assertThrows(
-                IllegalArgumentException.class,
-                validate::createUserWithNullBirthday
-        );
-    }
-
     @Test
     void shouldValidateCreateUserWithFutureBirthday(){
         Validate validate = new Validate();
@@ -57,7 +45,6 @@ public class UserControllerTest {
                 validate::createUserWithFutureBirthday
         );
     }
-
     @Test
     void shouldValidateCreateUserWithLoginWithSpaces(){
         Validate validate = new Validate();
@@ -66,7 +53,6 @@ public class UserControllerTest {
                 validate::createUserWithLoginWithSpaces
         );
     }
-
     @Test
     void shouldValidateUpdateUserWithWrongId(){
         Validate validate = new Validate();
@@ -75,7 +61,6 @@ public class UserControllerTest {
                 validate::updateUserWithWrongId
         );
     }
-
     @Test
     void shouldReplaceNameToLogin(){
         UserController controller = new UserController();
