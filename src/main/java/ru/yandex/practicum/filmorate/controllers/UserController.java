@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.controllers;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
@@ -15,8 +16,9 @@ import java.util.Map;
 @RestController
 @Slf4j
 @RequestMapping("/users")
+@Validated
 public class UserController {
-
+    // Разобрался. Я не знал, что аннотации не выбрасывают исключения.Проверки при создании пользователя оставляю, или их удалить вместе с тестами на их проверку валидации ?
     private int id = 0;
     private final Map<Integer, User> users = new HashMap<>();
 
@@ -30,15 +32,15 @@ public class UserController {
             if (users.containsKey(user.getId())) {
                 log.error("Такой пользователь уже существует.");
                 throw new ValidationException("Такой пользователь уже существует.");
-            }else if(user.getLogin().contains(" ")) {
-                log.error("Логин не может содержать пробелы");
-                throw new ValidationException("Логин не может содержать пробелы");
             }else if(user.getBirthday().isAfter(LocalDate.now())) {
                 log.error("Дата рождения не может быть в будущем");
                 throw new ValidationException("Дата рождения не может быть в будущем");
             }else if(!user.getEmail().contains("@")) {
                 log.error("Email должен содержать @");
                 throw new ValidationException("Email должен содержать @");
+            }else if(user.getLogin().contains(" ")) {
+                log.error("Логин не может содержать пробел");
+                throw new ValidationException("Логин не может содержать пробел");
             }else if(user.getEmail().isBlank()) {
                 log.error("Email не может быть пустым");
                 throw new ValidationException("Email не может быть пустым");
