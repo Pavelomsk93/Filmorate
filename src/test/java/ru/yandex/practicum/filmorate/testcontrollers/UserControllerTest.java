@@ -4,6 +4,8 @@ import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.filmorate.controllers.UserController;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.service.user.UserService;
+import ru.yandex.practicum.filmorate.storage.user.InMemoryUserStorage;
 import ru.yandex.practicum.filmorate.validate.Validate;
 
 import java.time.LocalDate;
@@ -63,7 +65,7 @@ public class UserControllerTest {
     }
     @Test
     void shouldReplaceNameToLogin(){
-        UserController controller = new UserController();
+        UserController controller = new UserController(new UserService(new InMemoryUserStorage()));
         User user = new User(0,"paveltomsk95@mail.ru","Pavel93"," ", LocalDate.of(1995,3,14));
         controller.createUser(user);
         assertEquals(user.getLogin(),user.getName());
