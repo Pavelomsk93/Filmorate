@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.testcontrollers;
 
 import org.junit.jupiter.api.Test;
 import ru.yandex.practicum.filmorate.controllers.UserController;
+import ru.yandex.practicum.filmorate.exceptions.UserNotFoundException;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.service.user.UserService;
@@ -61,7 +62,7 @@ public class UserControllerTest {
     void shouldValidateUpdateUserWithWrongId(){
         Validate validate = new Validate();
         assertThrows(
-                ValidationException.class,
+                UserNotFoundException.class,
                 validate::updateUserWithWrongId
         );
     }
