@@ -62,7 +62,7 @@ public class InMemoryFilmStorage implements FilmStorage{
             return film;
         }else {
             log.error("Фильм не найден");
-            throw new ValidationException("Фильм не найден");
+            throw new FilmNotFoundException("Фильм не найден");
         }
     }
 

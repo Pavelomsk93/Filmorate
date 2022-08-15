@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -15,9 +16,6 @@ import java.util.Set;
 @ToString
 @EqualsAndHashCode
 public class User {
-
-    private Set<Integer> friends;
-
 
     private Integer id;
 
@@ -33,6 +31,8 @@ public class User {
 
     @NotNull(message = "Не может быть null")
     private LocalDate birthday;
+
+    private Set<Integer> friends = new HashSet<>();
 
     public User(Integer id,String email,String login,String name,LocalDate birthday){
         this.id = id;

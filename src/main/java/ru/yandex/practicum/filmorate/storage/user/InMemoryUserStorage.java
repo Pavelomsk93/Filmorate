@@ -64,7 +64,7 @@ public class InMemoryUserStorage implements UserStorage{
             return user;
         } else {
             log.error("Id пользователя не найдено.");
-            throw new ValidationException("Id пользователя не найдено.");
+            throw new UserNotFoundException("Id пользователя не найдено.");
         }
     }
     @Override

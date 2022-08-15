@@ -10,7 +10,6 @@ import ru.yandex.practicum.filmorate.service.user.UserService;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Set;
 
 
 @RestController
@@ -45,23 +44,23 @@ public class UserController {
     }
 
     @PutMapping("/{id}/friends/{friendId}")
-    public Set<Integer> addFriends(@PathVariable int id, @PathVariable int friendId){
-        return userService.addFriend(id,friendId);
+    public void addFriends(@PathVariable int id, @PathVariable int friendId){
+         userService.addFriend(id,friendId);
     }
 
     @DeleteMapping("/{id}/friends/{friendId}")
-    public Set<Integer> deleteFriends(@PathVariable int id, @PathVariable int friendId){
-        return userService.removeFriend(id,friendId);
+    public void deleteFriends(@PathVariable int id, @PathVariable int friendId){
+        userService.removeFriend(id,friendId);
     }
 
     @GetMapping("/{id}/friends")
-    public Set<Integer> getAllFriends(@PathVariable int id){
+    public List<User> getAllFriends(@PathVariable int id){
         return userService.getAllFriends(id);
     }
 
     @GetMapping("/{id}/friends/common/{otherId}")
-    public Set<Integer> commonFriends(@PathVariable int id,@PathVariable int otherId){
-        return userService.commonFriends(id,otherId);
+    public List<User> getCommonFriends(@PathVariable int id,@PathVariable int otherId){
+        return userService.getCommonFriends(id,otherId);
     }
 
 

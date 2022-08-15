@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -12,10 +13,7 @@ import java.util.Set;
 @EqualsAndHashCode
 public class Film {
 
-   private Set<Integer> likes ;
-
-    @NotNull
-    private Integer id;
+    private int id;
 
     @NotNull(message = "Не может быть null")
     private String name;
@@ -29,7 +27,10 @@ public class Film {
     @NotNull
     private Integer duration;
 
-    public Film(Integer id,String name,String description,LocalDate releaseDate,Integer duration){
+    @NotNull
+    private Set<Integer> likes = new HashSet<>() ;
+
+    public Film(int id,String name,String description,LocalDate releaseDate,Integer duration){
         this.id = id;
         this.name = name;
         this.description = description;
