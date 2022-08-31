@@ -3,7 +3,7 @@ Template repository for Filmorate project.
 
 # Сервис по работе с фильмами #
 
-### Данные будут храниться в БД. Схема БД представлена ниже. ###
+### Данные будут храниться в Базе Данных. Схема БД представлена ниже. ###
 
 
 ![Схема Базы данных](C:\Users\pavel\dev\java-filmorate\src\main\resources\drawSQL-export-2022-08-30_11_31.png)
