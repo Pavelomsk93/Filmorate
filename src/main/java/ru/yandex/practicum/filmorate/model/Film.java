@@ -7,10 +7,10 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-@Getter
-@Setter
-@ToString
-@EqualsAndHashCode
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class Film {
 
     private int id;
@@ -27,16 +27,8 @@ public class Film {
     @NotNull
     private Integer duration;
 
-    @NotNull
-    private  Set<Integer> likes = new HashSet<>() ;
 
-    public Film(int id,String name,String description,LocalDate releaseDate,Integer duration){
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.releaseDate = releaseDate;
-        this.duration = duration;
-    }
+    private  Set<Integer> likes = new HashSet<>() ;
 
 
 }
