@@ -6,7 +6,7 @@ Template repository for Filmorate project.
 ### Данные будут храниться в Базе Данных. Схема БД представлена ниже. ###
 
 
-![Схема Базы данных](src/main/resources/drawSQL-export-2022-08-30_11_31.png)
+!(src/main/resources/drawSQL-export-2022-08-30_11_31.png)
 
 ### Примеры Endpoint запросов (программа написана на Java): ###
 
