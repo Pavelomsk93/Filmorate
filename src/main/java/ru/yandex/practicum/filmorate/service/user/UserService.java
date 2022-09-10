@@ -44,7 +44,6 @@ public class UserService {
             log.error("Пользователь не найден");
             throw new UserNotFoundException("Пользователь не найден");
         }else{
-            userStorage.findById(id).getFriends().add(friendId);
             userStorage.findById(friendId).getFriends().add(id);
             log.info("Пользователь {} добавил в друзья пользователя {}.",userStorage.findById(id).getLogin(),userStorage.findById(friendId).getLogin());
         }

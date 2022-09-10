@@ -5,8 +5,8 @@ import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exceptions.UserNotFoundException;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.service.UserCustomValidator;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +18,7 @@ public class InMemoryUserStorage implements UserStorage{
 
     private int id = 0;
     private final Map<Integer, User> users = new HashMap<>();
+    private final UserCustomValidator customValidator = new UserCustomValidator();
 
     @Override
     public List<User> getUser() {
@@ -29,22 +30,10 @@ public class InMemoryUserStorage implements UserStorage{
         if (users.containsKey(user.getId())) {
             log.error("Такой пользователь уже существует.");
             throw new ValidationException("Такой пользователь уже существует.");
-        }else if(user.getBirthday().isAfter(LocalDate.now())) {
-            log.error("Дата рождения не может быть в будущем");
-            throw new ValidationException("Дата рождения не может быть в будущем");
-        }else if(!user.getEmail().contains("@")) {
-            log.error("Email должен содержать @");
-            throw new ValidationException("Email должен содержать @");
-        }else if(user.getLogin().contains(" ")) {
-            log.error("Логин не может содержать пробел");
-            throw new ValidationException("Логин не может содержать пробел");
-        }else if(user.getEmail().isBlank()) {
-            log.error("Email не может быть пустым");
-            throw new ValidationException("Email не может быть пустым");
-        }else if(user.getLogin().isBlank()) {
-            log.error("Логин не может быть пустым");
-            throw new ValidationException("Логин не может быть пустым");
-        } else {
+        }else if(!customValidator.isValid(user)) {
+            log.info("Попытка добавить пользователя с некорректной информацией");
+            throw new ValidationException("Некорректно заполнено одно из полей");
+        }else {
             if (user.getName().isBlank()) {
                 log.debug("Имя не указано. В качестве имени используется логин.");
                 user.setName(user.getLogin());

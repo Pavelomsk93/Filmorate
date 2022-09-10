@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exceptions.FilmNotFoundException;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.service.FilmCustomValidator;
 
 
 import java.time.LocalDate;
@@ -18,7 +19,7 @@ import java.util.Map;
 public class InMemoryFilmStorage implements FilmStorage{
 
     private final Map<Integer, Film> films = new HashMap<>();
-    private static final LocalDate DATE_RELEASE = LocalDate.of(1895, 12, 28);
+    private final FilmCustomValidator customValidator = new FilmCustomValidator();
 
     private int id = 0;
 
@@ -32,20 +33,11 @@ public class InMemoryFilmStorage implements FilmStorage{
     @Override
     public Film createFilm(Film film) {
         if (films.containsKey(film.getId())) {
-            log.error("Фильм: {} уже существует.",film.getName());
+            log.error("Фильм: {} уже существует.", film.getName());
             throw new ValidationException("Фильм: " + film.getName() + " уже существует.");
-        } else if (film.getReleaseDate().isBefore(DATE_RELEASE)) {
-            log.error("Дата релиза фильма не может быть раньше " + DATE_RELEASE);
-            throw new ValidationException("Дата релиза фильма не может быть раньше " + DATE_RELEASE);
-        }else if(film.getDescription().length()>200) {
-            log.error("Длина описания фильма не может быть больше 200 символов");
-            throw new ValidationException("Длина описания фильма не может быть больше 200 символов");
-        }else if(film.getDuration()<0) {
-            log.error("Продолжительность фильма должна быть больше 0");
-            throw new ValidationException("Продолжительность фильма должна быть больше 0");
-        }else if(film.getName().isBlank()){
-            log.error("Название не может быть пустым");
-            throw new ValidationException("Название не может быть пустым");
+        }else if(!customValidator.isValid(film)){
+            log.info("Попытка добавить фильм с некорректной информацией");
+            throw new ValidationException("Некорректно заполнено одно из полей");
         }else {
             film.setId(++id);
             films.put(film.getId(), film);
