@@ -24,7 +24,7 @@ public class UserController {
         this.userService=userService;
     }
     @GetMapping
-    public List<User> getUser() {
+    public List<User> getUsers() {
         return userService.findAll();
     }
 
@@ -41,6 +41,11 @@ public class UserController {
     @GetMapping("/{id}")
     public User findBId(@PathVariable int id){
         return userService.findById(id);
+    }
+
+    @DeleteMapping
+    public void removeUser(@Valid @RequestBody User user){
+        userService.removeUser(user);
     }
 
     @PutMapping("/{id}/friends/{friendId}")
