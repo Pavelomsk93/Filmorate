@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@Sql(scripts = "classpath:schema.sql",executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "classpath:schema.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class GenreControllerTests {
 
@@ -37,7 +37,7 @@ public class GenreControllerTests {
     @Test
     @DisplayName("FindAll")
     public void testFindAll() {
-        assertEquals(6,genreDaoStorage.getAllGenres().size());
+        assertEquals(6, genreDaoStorage.getAllGenres().size());
     }
 
 }

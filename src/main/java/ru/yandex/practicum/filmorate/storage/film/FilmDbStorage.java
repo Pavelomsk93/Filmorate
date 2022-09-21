@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.storage.film;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -8,7 +9,6 @@ import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exceptions.FilmNotFoundException;
 import ru.yandex.practicum.filmorate.exceptions.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.model.Mpa;
 import ru.yandex.practicum.filmorate.service.FilmCustomValidator;
 
@@ -18,20 +18,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class FilmDbStorage implements FilmDaoStorage {
 
     private final JdbcTemplate jdbcTemplate;
     private final FilmCustomValidator customValidator;
-
-    public FilmDbStorage(JdbcTemplate jdbcTemplate,  FilmCustomValidator customValidator) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.customValidator = customValidator;
-    }
-
 
     @Override
     public List<Film> getFilms() {
@@ -41,6 +35,7 @@ public class FilmDbStorage implements FilmDaoStorage {
                         "FROM FILMS f " +
                         "JOIN MPA_RATINGS AS R ON f.MPA_ID = R.MPA_ID " +
                         "ORDER BY F.FILM_ID";
+        log.info("Все фильмы:");
         return jdbcTemplate.query(sql, (rs, rowNum) -> makeFilm(rs));
     }
 
@@ -50,7 +45,7 @@ public class FilmDbStorage implements FilmDaoStorage {
             log.error("Фильм: {} уже существует.", film.getName());
             throw new ValidationException("Фильм: " + film.getName() + " уже существует.");
         }
-        if(!customValidator.isValid(film)){
+        if (!customValidator.isValid(film)) {
             log.info("Попытка добавить фильм с некорректной информацией");
             throw new ValidationException("Некорректно заполнено одно из полей");
         }
@@ -67,12 +62,13 @@ public class FilmDbStorage implements FilmDaoStorage {
             return ps;
         }, keyHolder);
         film.setId(Objects.requireNonNull(keyHolder.getKey()).intValue());
+        log.info("Добавлен фильм {}", film.getName());
         return film;
     }
 
     @Override
     public Film updateFilm(Film film) {
-        if(!(getFilms().contains(film))){
+        if (!(getFilms().contains(film))) {
             log.error("Фильм не найден");
             throw new FilmNotFoundException("Фильм не найден");
         }
@@ -81,8 +77,9 @@ public class FilmDbStorage implements FilmDaoStorage {
                         "SET NAME = ?,DESCRIPTION = ? ,RELEASE_DATE = ? , " +
                         "DURATION = ?, MPA_ID =? " +
                         "WHERE FILM_ID = ?";
-        jdbcTemplate.update(sql, film.getName(),film.getDescription() ,film.getReleaseDate() ,
+        jdbcTemplate.update(sql, film.getName(), film.getDescription(), film.getReleaseDate(),
                 film.getDuration(), film.getMpa().getId(), film.getId());
+        log.info("Обновлён фильм {}", film.getName());
         return film;
     }
 
@@ -92,7 +89,7 @@ public class FilmDbStorage implements FilmDaoStorage {
             throw new FilmNotFoundException("Введен некорректный идентификатор фильма.");
         }
         String sql =
-                "SELECT F.FILM_ID, F.NAME, F.DESCRIPTION, F.RELEASE_DATE,"    +
+                "SELECT F.FILM_ID, F.NAME, F.DESCRIPTION, F.RELEASE_DATE," +
                         "F.DURATION, F.MPA_ID, R.MPA_NAME " +
                         "FROM FILMS F " +
                         "JOIN MPA_RATINGS AS R ON F.MPA_ID = R.MPA_ID " +
@@ -103,7 +100,7 @@ public class FilmDbStorage implements FilmDaoStorage {
 
     @Override
     public void deleteFilm(Film film) {
-        if (!getFilms().contains(film)||film.getId() < 1) {
+        if (!getFilms().contains(film) || film.getId() < 1) {
             throw new FilmNotFoundException("Фильм не найден для удаления.");
         }
         String sql =
@@ -111,24 +108,7 @@ public class FilmDbStorage implements FilmDaoStorage {
                         "FROM FILMS " +
                         "WHERE FILM_ID = ?";
         jdbcTemplate.update(sql, film.getId());
-    }
-
-    @Override
-    public void createGenreByFilm(Film film) {
-        if(!customValidator.isValid(film)){
-            log.info("Попытка добавить фильм с некорректной информацией");
-            throw new ValidationException("Некорректно заполнено одно из полей");
-        }
-        String sql =
-                "INSERT INTO FILMS_GENRES (FILM_ID, GENRE_ID) " +
-                        "VALUES(?, ?)";
-        Set<Genre> genres = film.getGenres();
-        if (genres == null) {
-            return;
-        }
-        for (Genre genre : genres) {
-            jdbcTemplate.update(sql, film.getId(), genre.getId());
-        }
+        log.info("Удалён фильм {}", film.getName());
     }
 
     @Override

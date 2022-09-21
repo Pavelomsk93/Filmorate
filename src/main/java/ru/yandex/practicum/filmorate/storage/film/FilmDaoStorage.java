@@ -9,15 +9,13 @@ public interface FilmDaoStorage {
 
     List<Film> getFilms();
 
-    Film createFilm( Film film);
+    Film createFilm(Film film);
 
-    Film updateFilm( Film film);
+    Film updateFilm(Film film);
 
     Film findById(int id);
 
     void deleteFilm(Film film);
-
-    void createGenreByFilm(Film film);
 
     List<Film> popularFilms(Integer count);
 }

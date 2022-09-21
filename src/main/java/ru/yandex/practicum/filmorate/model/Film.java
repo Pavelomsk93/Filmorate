@@ -22,7 +22,7 @@ public class Film {
     @NotNull(message = "Не может быть null")
     private String description;
 
-    @NotNull (message = "Не может быть null")
+    @NotNull(message = "Не может быть null")
     private LocalDate releaseDate;
 
     @NotNull
@@ -30,7 +30,7 @@ public class Film {
 
     private Mpa mpa;
 
-    private  Set<Integer> likes = new HashSet<>() ;
+    private Set<Integer> likes = new HashSet<>();
 
     private Set<Genre> genres = new LinkedHashSet<>();
 }

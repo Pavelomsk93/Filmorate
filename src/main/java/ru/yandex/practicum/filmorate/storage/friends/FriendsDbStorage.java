@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.storage.friends;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -12,15 +13,12 @@ import java.util.stream.Collectors;
 
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class FriendsDbStorage implements FriendsDaoStorage {
 
     private final JdbcTemplate jdbcTemplate;
     private final UserDaoStorage userDaoStorage;
 
-    public FriendsDbStorage(JdbcTemplate jdbcTemplate, UserDaoStorage userDaoStorage) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.userDaoStorage = userDaoStorage;
-    }
 
     @Override
     public void addFriend(int userId, int friendId) {
@@ -57,9 +55,9 @@ public class FriendsDbStorage implements FriendsDaoStorage {
                         "FROM FRIENDS " +
                         "WHERE USER_ID=?";
         List<Integer> friendsUser = jdbcTemplate.queryForList(sql, Integer.class, id);
+        log.info("Все друзья пользователя с id {}:", id);
         return friendsUser.stream()
                 .map(userDaoStorage::findById)
                 .collect(Collectors.toList());
     }
-
 }

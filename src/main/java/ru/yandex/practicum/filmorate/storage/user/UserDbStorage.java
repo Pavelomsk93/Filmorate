@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.storage.user;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -19,20 +20,18 @@ import java.util.Objects;
 
 @Component
 @Slf4j
-public class UserDbStorage implements UserDaoStorage{
+@RequiredArgsConstructor
+public class UserDbStorage implements UserDaoStorage {
 
     private final JdbcTemplate jdbcTemplate;
     private final UserCustomValidator customValidator;
 
-    public UserDbStorage(JdbcTemplate jdbcTemplate, UserCustomValidator customValidator) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.customValidator = customValidator;
-    }
 
     @Override
     public List<User> getUsers() {
         String sql =
                 "SELECT * FROM USERS";
+        log.info("Все пользователи :");
         return jdbcTemplate.query(sql, (rs, rowNum) -> makeUser(rs));
     }
 
@@ -41,10 +40,10 @@ public class UserDbStorage implements UserDaoStorage{
         if (getUsers().contains(user)) {
             log.error("Такой пользователь уже существует.");
             throw new ValidationException("Такой пользователь уже существует.");
-        }else if(!customValidator.isValid(user)) {
+        } else if (!customValidator.isValid(user)) {
             log.info("Попытка добавить пользователя с некорректной информацией");
             throw new ValidationException("Некорректно заполнено одно из полей");
-        }else {
+        } else {
             if (user.getName().isBlank()) {
                 log.debug("Имя не указано. В качестве имени используется логин.");
                 user.setName(user.getLogin());
@@ -60,6 +59,7 @@ public class UserDbStorage implements UserDaoStorage{
                 return stmt;
             }, keyHolder);
             user.setId(Objects.requireNonNull(keyHolder.getKey()).intValue());
+            log.info("Добавлен пользователь {}", user.getLogin());
             return user;
         }
     }
@@ -76,6 +76,7 @@ public class UserDbStorage implements UserDaoStorage{
                             " WHERE USER_ID = ?";
             jdbcTemplate.update(sql, user.getEmail(), user.getLogin(), user.getName(), user.getBirthday(),
                     user.getId());
+            log.info("Обновлён пользователь {}", user.getLogin());
             return user;
         }
     }
@@ -96,7 +97,7 @@ public class UserDbStorage implements UserDaoStorage{
 
     @Override
     public void deleteUser(User user) {
-        if(!customValidator.isValid(user)) {
+        if (!customValidator.isValid(user)) {
             log.info("Попытка добавить пользователя с некорректной информацией");
             throw new ValidationException("Некорректно заполнено одно из полей");
         }
@@ -109,6 +110,7 @@ public class UserDbStorage implements UserDaoStorage{
         String sql =
                 "DELETE FROM USERS " +
                         "WHERE USER_ID = ?";
+        log.info("Удалён пользователь {}", user.getLogin());
         jdbcTemplate.update(sql, user.getId());
     }
 

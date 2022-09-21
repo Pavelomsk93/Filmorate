@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@Sql(scripts = "classpath:schema.sql",executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "classpath:schema.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class MpaControllerTests {
 
@@ -37,6 +37,6 @@ public class MpaControllerTests {
     @Test
     @DisplayName("FindAll")
     public void testFindAll() {
-        assertEquals(5,mpaDaoStorage.getAllMpa().size());
+        assertEquals(5, mpaDaoStorage.getAllMpa().size());
     }
 }

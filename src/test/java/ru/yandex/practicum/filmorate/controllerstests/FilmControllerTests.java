@@ -19,9 +19,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@Sql(scripts = "classpath:schema.sql",executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "classpath:schema.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
- class FilmControllerTests {
+class FilmControllerTests {
 
     private final FilmService filmService;
     private final MpaDaoStorage mpaDaoStorage;
@@ -33,7 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
         Film filmFind = new Film();
         filmFind.setName("New FIlm");
         filmFind.setDescription("Description");
-        filmFind.setReleaseDate(LocalDate.of(2000,12,12));
+        filmFind.setReleaseDate(LocalDate.of(2000, 12, 12));
         filmFind.setDuration(90);
         filmFind.setMpa(mpaDaoStorage.getMpaById(1));
         filmService.createFilm(filmFind);
@@ -52,7 +52,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
         Film film = new Film();
         film.setName("New FIlm");
         film.setDescription("Description");
-        film.setReleaseDate(LocalDate.of(2000,12,12));
+        film.setReleaseDate(LocalDate.of(2000, 12, 12));
         film.setDuration(90);
         film.setMpa(mpaDaoStorage.getMpaById(1));
         filmService.createFilm(film);
@@ -60,7 +60,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
         updateFilm.setId(film.getId());
         updateFilm.setName("Update FIlm");
         updateFilm.setDescription("Update Description");
-        updateFilm.setReleaseDate(LocalDate.of(2000,12,12));
+        updateFilm.setReleaseDate(LocalDate.of(2000, 12, 12));
         updateFilm.setDuration(90);
         updateFilm.setMpa(mpaDaoStorage.getMpaById(1));
         filmService.updateFilm(updateFilm);
@@ -73,14 +73,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
         Film oneFilm = new Film();
         oneFilm.setName("New FIlm");
         oneFilm.setDescription("Description");
-        oneFilm.setReleaseDate(LocalDate.of(2000,12,12));
+        oneFilm.setReleaseDate(LocalDate.of(2000, 12, 12));
         oneFilm.setDuration(90);
         oneFilm.setMpa(mpaDaoStorage.getMpaById(1));
         filmService.createFilm(oneFilm);
         Film twoFilm = new Film();
         twoFilm.setName("Two FIlm");
         twoFilm.setDescription("Two Description");
-        twoFilm.setReleaseDate(LocalDate.of(1998,11,9));
+        twoFilm.setReleaseDate(LocalDate.of(1998, 11, 9));
         twoFilm.setDuration(90);
         twoFilm.setMpa(mpaDaoStorage.getMpaById(2));
         filmService.createFilm(twoFilm);
@@ -93,14 +93,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
         Film oneFilm = new Film();
         oneFilm.setName("New FIlm");
         oneFilm.setDescription("Description");
-        oneFilm.setReleaseDate(LocalDate.of(2000,12,12));
+        oneFilm.setReleaseDate(LocalDate.of(2000, 12, 12));
         oneFilm.setDuration(90);
         oneFilm.setMpa(mpaDaoStorage.getMpaById(1));
         filmService.createFilm(oneFilm);
         Film twoFilm = new Film();
         twoFilm.setName("Two FIlm");
         twoFilm.setDescription("Two Description");
-        twoFilm.setReleaseDate(LocalDate.of(1998,11,9));
+        twoFilm.setReleaseDate(LocalDate.of(1998, 11, 9));
         twoFilm.setDuration(90);
         twoFilm.setMpa(mpaDaoStorage.getMpaById(2));
         filmService.createFilm(twoFilm);
@@ -114,7 +114,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
         Film oneFilm = new Film();
         oneFilm.setName("New FIlm");
         oneFilm.setDescription("Description");
-        oneFilm.setReleaseDate(LocalDate.of(2000,12,12));
+        oneFilm.setReleaseDate(LocalDate.of(2000, 12, 12));
         oneFilm.setDuration(90);
         oneFilm.setMpa(mpaDaoStorage.getMpaById(1));
         filmService.createFilm(oneFilm);
@@ -122,10 +122,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
         userOne.setEmail("pavelomsk95@mail.com");
         userOne.setLogin("Pavel95");
         userOne.setName("Pavel");
-        userOne.setBirthday(LocalDate.of(1995,10,13));
+        userOne.setBirthday(LocalDate.of(1995, 10, 13));
         userDaoStorage.createUser(userOne);
-        filmService.putLike(oneFilm.getId(),userOne.getId());
-        assertEquals(1,filmService.popularFilms(10).size());
+        filmService.putLike(oneFilm.getId(), userOne.getId());
+        assertEquals(1, filmService.popularFilms(10).size());
     }
 
     @Test
@@ -134,7 +134,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
         Film oneFilm = new Film();
         oneFilm.setName("New FIlm");
         oneFilm.setDescription("Description");
-        oneFilm.setReleaseDate(LocalDate.of(2000,12,12));
+        oneFilm.setReleaseDate(LocalDate.of(2000, 12, 12));
         oneFilm.setDuration(90);
         oneFilm.setMpa(mpaDaoStorage.getMpaById(1));
         filmService.createFilm(oneFilm);
@@ -142,18 +142,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
         userOne.setEmail("pavelomsk95@mail.com");
         userOne.setLogin("Pavel95");
         userOne.setName("Pavel");
-        userOne.setBirthday(LocalDate.of(1995,10,13));
+        userOne.setBirthday(LocalDate.of(1995, 10, 13));
         userDaoStorage.createUser(userOne);
         User userTwo = new User();
         userTwo.setEmail("ivanomsk95@mail.com");
         userTwo.setLogin("Ivan95");
         userTwo.setName("Ivan");
-        userTwo.setBirthday(LocalDate.of(1993,10,13));
+        userTwo.setBirthday(LocalDate.of(1993, 10, 13));
         userDaoStorage.createUser(userTwo);
-        filmService.putLike(oneFilm.getId(),userOne.getId());
-        filmService.putLike(oneFilm.getId(),userTwo.getId());
-        filmService.removeLike(oneFilm.getId(),userOne.getId());
-        assertEquals(1,filmService.popularFilms(10).size());
+        filmService.putLike(oneFilm.getId(), userOne.getId());
+        filmService.putLike(oneFilm.getId(), userTwo.getId());
+        filmService.removeLike(oneFilm.getId(), userOne.getId());
+        assertEquals(1, filmService.popularFilms(10).size());
     }
 
     @Test
@@ -162,7 +162,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
         Film oneFilm = new Film();
         oneFilm.setName("New FIlm");
         oneFilm.setDescription("Description");
-        oneFilm.setReleaseDate(LocalDate.of(2000,12,12));
+        oneFilm.setReleaseDate(LocalDate.of(2000, 12, 12));
         oneFilm.setDuration(90);
         oneFilm.setMpa(mpaDaoStorage.getMpaById(1));
         filmService.createFilm(oneFilm);
@@ -170,21 +170,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
         userOne.setEmail("pavelomsk95@mail.com");
         userOne.setLogin("Pavel95");
         userOne.setName("Pavel");
-        userOne.setBirthday(LocalDate.of(1995,10,13));
+        userOne.setBirthday(LocalDate.of(1995, 10, 13));
         userDaoStorage.createUser(userOne);
         Film twoFilm = new Film();
         twoFilm.setName("Two FIlm");
         twoFilm.setDescription("Two Description");
-        twoFilm.setReleaseDate(LocalDate.of(1998,11,9));
+        twoFilm.setReleaseDate(LocalDate.of(1998, 11, 9));
         twoFilm.setDuration(90);
         twoFilm.setMpa(mpaDaoStorage.getMpaById(2));
         filmService.createFilm(twoFilm);
-        filmService.putLike(oneFilm.getId(),userOne.getId());
-        filmService.putLike(twoFilm.getId(),userOne.getId());
-        assertEquals(2,filmService.popularFilms(10).size());
+        filmService.putLike(oneFilm.getId(), userOne.getId());
+        filmService.putLike(twoFilm.getId(), userOne.getId());
+        assertEquals(2, filmService.popularFilms(10).size());
     }
-
-
-
-
 }

@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.storage.genre;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exceptions.EntityNotFoundException;
@@ -12,14 +13,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+
 @Component
+@RequiredArgsConstructor
 public class GenreDbStorage implements GenreDaoStorage {
 
     private final JdbcTemplate jdbcTemplate;
-
-    public GenreDbStorage(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
 
     @Override
     public Genre getGenreById(int genreId) {
@@ -51,11 +50,6 @@ public class GenreDbStorage implements GenreDaoStorage {
                         "NATURAL JOIN FILMS_GENRES fg " +
                         "WHERE fg.FILM_ID = ?";
         return new HashSet<>(jdbcTemplate.query(sql, (rs, rowNum) -> makeGenre(rs), film.getId()));
-    }
-
-    public void updateGenreFilm(Film film) {
-        String sql = "DELETE FROM FILMS_GENRES WHERE FILM_ID = ?";
-        jdbcTemplate.update(sql, film.getId());
     }
 
     private Genre makeGenre(ResultSet rs) throws SQLException {

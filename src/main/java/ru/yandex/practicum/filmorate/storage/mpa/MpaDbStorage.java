@@ -1,6 +1,7 @@
 package ru.yandex.practicum.filmorate.storage.mpa;
 
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.exceptions.EntityNotFoundException;
@@ -11,13 +12,10 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class MpaDbStorage implements MpaDaoStorage {
 
     private final JdbcTemplate jdbcTemplate;
-
-    public MpaDbStorage(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
 
     @Override
     public Mpa getMpaById(Integer id) {
@@ -40,6 +38,7 @@ public class MpaDbStorage implements MpaDaoStorage {
                         "ORDER BY MPA_ID";
         return jdbcTemplate.query(sql, (rs, rowNum) -> makeMpa(rs));
     }
+
     private Mpa makeMpa(ResultSet rs) throws SQLException {
         return new Mpa(rs.getInt("MPA_ID"), rs.getString("MPA_NAME"));
     }
