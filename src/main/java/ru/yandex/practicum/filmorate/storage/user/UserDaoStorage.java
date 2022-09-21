@@ -4,13 +4,15 @@ import ru.yandex.practicum.filmorate.model.User;
 
 import java.util.List;
 
-public interface UserStorage {
+public interface UserDaoStorage {
 
-    List<User> getUser();
+    List<User> getUsers();
 
     User createUser(User user);
 
     User updateUser(User user);
 
     User findById(int id);
+
+    void deleteUser(User user);
 }

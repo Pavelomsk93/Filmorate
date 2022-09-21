@@ -5,6 +5,7 @@ import lombok.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Data
@@ -21,14 +22,15 @@ public class Film {
     @NotNull(message = "Не может быть null")
     private String description;
 
-    @NotNull (message = "Не может быть null")
+    @NotNull(message = "Не может быть null")
     private LocalDate releaseDate;
 
     @NotNull
     private Integer duration;
 
+    private Mpa mpa;
 
-    private  Set<Integer> likes = new HashSet<>() ;
+    private Set<Integer> likes = new HashSet<>();
 
-
+    private Set<Genre> genres = new LinkedHashSet<>();
 }
