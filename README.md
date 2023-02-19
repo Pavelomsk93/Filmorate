@@ -1,6 +1,3 @@
-# java-filmorate
-Template repository for Filmorate project.
-
 # Сервис для работы с фильмами
 
 **Данная программа позволяет оценивать фильмы и получать топ-фильмов по запросу**
